@@ -6,6 +6,8 @@ import requests_cache
 import uuid
 try:
     from newspaper import Article
+except ImportError:
+    print('WARNING: Newspaper required for text extraction and summarization')
 except ModuleNotFoundError:
     print('WARNING: Newspaper required for text extraction and summarization')
 
