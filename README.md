@@ -9,6 +9,11 @@ Overview
 
 Standard patterns for managing web resources
 
+
+Note: Newspaper is used for text extraction and summarization. Newspaper does
+not play well with Python 2. Python 3 is recommended if these features are
+used.
+
 Installation / Usage
 --------------------
 
@@ -21,7 +26,7 @@ Or clone the repo:
 
     $ git clone https://github.com/@scott2b/webtools.git
     $ python setup.py install
-    
+
 Contributing
 ------------
 
