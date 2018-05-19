@@ -50,13 +50,13 @@ class Text(object):
 
     Only applies stoplisting to end tokens (e.g. n1 and n3 for n == 3)
     """
-    def ordered_ngrams(self, n_range, stoplist=default_stoplist):
+    def ordered_ngrams(self, n_range, stoplist=default_stoplist, distill=True):
         """
-        >>> t.ordered_ngrams(range(2,4))[:5]
-        [('reasons unknown', 4), ('left unfinished', 3), ('works of Puncher', 2), ('Puncher and Wattmann', 2), ('unknown but time', 2)]
+        >>> [x for x,y in t.ordered_ngrams(range(2,4)) if y>1]
+        ['reasons unknown', 'left unfinished', 'public works', 'works of Puncher', 'Puncher and Wattmann', 'unknown but time', 'time will tell', 'Testew and Cunard']
         """
         grams = {}
-        for n in sorted(n_range, reverse=True):
+        for n in n_range:
             for gram in self.blob.ngrams(n=n):
                 gram = [render_text(t) for t in gram]
                 if gram[0].lower() not in stoplist \
@@ -65,6 +65,14 @@ class Text(object):
                     if gram not in grams:
                         grams[gram] = 0
                     grams[gram] += 1
+        if distill:
+            keys = [k for k in grams.keys()]
+            for k1 in keys:
+                for k2 in keys:
+                    if k1 != k2 and k1 in k2:
+                        if grams[k1] <= grams[k2]:
+                            del(grams[k1])
+                            break
         return sorted(grams.items(), key=lambda x: x[1], reverse=True)
 
 
