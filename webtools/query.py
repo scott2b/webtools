@@ -28,25 +28,39 @@ class QueryBuilder(object):
         else:
             return term
 
-    def join(self, terms):
+    def join(self, terms, parens=True):
         """
         >>> q.join(("1", "2", "3 three"))
+        '(1 & 2 & "3 three")'
+        >>> q.join(("1", "2", "3 three"), parens=False)
         '1 & 2 & "3 three"'
         >>> q._and = ' AND '
         >>> q.join(("1", "2", "3 three"))
+        '(1 AND 2 AND "3 three")'
+        >>> q.join(("1", "2", "3 three"), parens=False)
         '1 AND 2 AND "3 three"'
         """
-        return self._and.join([self.quote(t) for t in terms if t])
+        r = self._and.join([self.quote(t) for t in terms if t])
+        if parens and len(terms) > 1:
+            r = '(%s)' % r
+        return r
 
-    def disjoin(self, terms):
+    def disjoin(self, terms, parens=True):
         """
         >>> q.disjoin(("1", "2", "3 three"))
+        '(1 | 2 | "3 three")'
+        >>> q.disjoin(("1", "2", "3 three"), parens=False)
         '1 | 2 | "3 three"'
         >>> q._or = ' OR '
         >>> q.disjoin(("1", "2", "3 three"))
+        '(1 OR 2 OR "3 three")'
+        >>> q.disjoin(("1", "2", "3 three"), parens=False)
         '1 OR 2 OR "3 three"'
         """
-        return self._or.join([self.quote(t) for t in terms if t])
+        r = self._or.join([self.quote(t) for t in terms if t])
+        if parens and len(terms) > 1:
+            r = '(%s)' % r
+        return r
 
     def anded_or_group_queries(self, term_list_1, n1, term_list_2, n2):
         """
@@ -55,7 +69,7 @@ class QueryBuilder(object):
         """
         l1 = grouper(term_list_1, n1)
         l2 = grouper(term_list_2, n2)
-        return ['(%s)%s(%s)' % (self.disjoin(t1), self._and, self.disjoin(t2))
+        return ['%s%s%s' % (self.disjoin(t1), self._and, self.disjoin(t2))
             for t1, t2 in product(l1, l2)]
 
 
