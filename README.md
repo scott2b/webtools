@@ -18,7 +18,7 @@ Installation / Usage
 --------------------
 
 This library is a mix of things I use in my projects and is a bit of a
-hodgepodge. I do not anticipate putting it into, so please install from the repo.
+hodgepodge. I do not anticipate putting it into pypi, so please install from the repo.
 
 To install use pip:
 
