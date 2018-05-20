@@ -51,9 +51,9 @@ class Text(object):
 
     Only applies stoplisting to end tokens (e.g. n1 and n3 for n == 3)
     """
-    def ordered_ngrams(self, n_range, stoplist=default_stoplist, distill=True):
+    def scored_ngrams(self, n_range, stoplist=default_stoplist, distill=True):
         """
-        >>> [x for x,y in t.ordered_ngrams(range(2,4)) if y>1]
+        >>> [x for x,y in t.scored_ngrams(range(2,4)).most_common() if y>1]
         ['reasons unknown', 'left unfinished', 'public works', 'works of Puncher', 'Puncher and Wattmann', 'unknown but time', 'time will tell', 'Testew and Cunard']
         """
         grams = {}
@@ -77,7 +77,7 @@ class Text(object):
                 else:
                     continue
                 break
-        return sorted(grams.items(), key=lambda x: x[1], reverse=True)
+        return Counter(grams)
 
 
     """
