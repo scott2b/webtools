@@ -1,7 +1,7 @@
 webtools
 ===============================
 
-version number: 0.0.1
+version number: 0.0.2
 author: Scott B. Bradley
 
 Overview
@@ -22,7 +22,7 @@ hodgepodge. I do not anticipate putting it into pypi, so please install from the
 
 To install use pip:
 
-    $ pip install git+https://github.com/scott2b/webtools.git#webtools
+    $ pip install git+https://github.com/scott2b/webtools.git@0.0.2#egg=webtools
 
 
 Or clone the repo:
